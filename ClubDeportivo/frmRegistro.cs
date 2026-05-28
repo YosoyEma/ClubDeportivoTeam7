@@ -19,6 +19,17 @@ namespace ClubDeportivo
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
+            // Show the main form instead of exiting the application
+            var main = Application.OpenForms.OfType<frmPrincipal>().FirstOrDefault();
+            if (main != null)
+            {
+                main.Show();
+            }
+            else
+            {
+                var principal = new frmPrincipal();
+                principal.Show();
+            }
             this.Close();
         }
 

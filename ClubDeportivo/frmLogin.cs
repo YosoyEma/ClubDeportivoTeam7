@@ -38,8 +38,15 @@ namespace ClubDeportivo
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)
+
+
         {
-            DataTable tablaLogin = new DataTable(); // Es la que recibe los datos desde la base de datos
+
+            frmPrincipal ventanaPrincipal = new frmPrincipal();
+            ventanaPrincipal.Show();
+            this.Hide();
+
+            /* DataTable tablaLogin = new DataTable(); // Es la que recibe los datos desde la base de datos
             Datos.Usuarios dato = new Datos.Usuarios(); // Instanciamos la clase Usuarios que creamos en el paso anterior
 
             // Llamamos al método Log_Usu pasándole lo que el usuario escribió en las cajas de texto
@@ -62,6 +69,7 @@ namespace ClubDeportivo
                 // Si la tabla vuelve vacía, los datos son incorrectos
                 MessageBox.Show("Usuario y/o password incorrecto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            */
         }
     }
 }
