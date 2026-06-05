@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClubDeportivo.Entidades
 {
-    public class E_Socio
+    public class Socio
     {
         // Encapsulamiento de los atributos con get y set
         public string DNI { get; set; }

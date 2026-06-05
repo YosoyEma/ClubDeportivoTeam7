@@ -139,9 +139,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(19, 118);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(49, 13);
+            this.label3.Size = new System.Drawing.Size(29, 13);
             this.label3.TabIndex = 13;
-            this.label3.Text = "Horarios:";
+            this.label3.Text = "DNI:";
             // 
             // txtDNI
             // 
@@ -314,7 +314,7 @@
             this.btnVolver.TabIndex = 1;
             this.btnVolver.Text = "Cancelar";
             this.btnVolver.UseVisualStyleBackColor = true;
-            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
+            this.btnVolver.Click += new System.EventHandler(this.BtnVolver_Click);
             // 
             // btnGuardar
             // 
@@ -324,7 +324,7 @@
             this.btnGuardar.TabIndex = 0;
             this.btnGuardar.Text = "Añadir Socio";
             this.btnGuardar.UseVisualStyleBackColor = true;
-            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
+            this.btnGuardar.Click += new System.EventHandler(this.BtnGuardar_Click);
             // 
             // frmRegistro
             // 

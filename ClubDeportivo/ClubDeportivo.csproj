@@ -112,8 +112,9 @@
   <ItemGroup>
     <Compile Include="Datos\Conexion.cs" />
     <Compile Include="Datos\Socios.cs" />
+    <Compile Include="Datos\TablaRepositorio.cs" />
     <Compile Include="Datos\Usuarios.cs" />
-    <Compile Include="Entidades\E_Socio.cs" />
+    <Compile Include="Entidades\Socio.cs" />
     <Compile Include="frmCuota.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -10,13 +10,13 @@ namespace ClubDeportivo.Datos
 {
     internal class Socios
     {
-        public string Nuevo_Socio(Entidades.E_Socio socio)
+        public string NuevoSocio(Entidades.Socio socio)
         {
             string salida;
             MySqlConnection sqlCon = new MySqlConnection();
             try
             {
-                sqlCon = Conexion.getInstancia().CrearConexion();
+                sqlCon = Conexion.GetInstancia().CrearConexion();
                 MySqlCommand comando = new MySqlCommand("Nuevo_Socio", sqlCon);
                 // Especificamos que se usa un procedimiento almacenado
                 comando.CommandType = CommandType.StoredProcedure;

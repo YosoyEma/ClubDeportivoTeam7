@@ -17,7 +17,7 @@ namespace ClubDeportivo
             InitializeComponent();
         }
 
-        private void btnVolver_Click(object sender, EventArgs e)
+        private void BtnVolver_Click(object sender, EventArgs e)
         {
             // Show the main form instead of exiting the application
             var main = Application.OpenForms.OfType<frmPrincipal>().FirstOrDefault();
@@ -33,7 +33,7 @@ namespace ClubDeportivo
             this.Close();
         }
 
-        private void btnGuardar_Click(object sender, EventArgs e)
+        private void BtnGuardar_Click(object sender, EventArgs e)
         {
             // 1. Controlamos que todos los datos requeridos tengan información
             if (txtDNI.Text == "" || txtNombre.Text == "" || txtApellido.Text == "" || txtTelefono.Text == "")
@@ -42,8 +42,8 @@ namespace ClubDeportivo
                 return; // Corta la ejecución si faltan datos
             }
 
-            // 2. Instanciamos un objeto de la clase E_Socio y le pasamos los datos de las cajas de texto
-            Entidades.E_Socio nuevoSocio = new Entidades.E_Socio();
+            // 2. Instanciamos un objeto de la clase Socio y le pasamos los datos de las cajas de texto
+            Entidades.Socio nuevoSocio = new Entidades.Socio();
             nuevoSocio.DNI = txtDNI.Text;
             nuevoSocio.Nombre = txtNombre.Text;
             nuevoSocio.Apellido = txtApellido.Text;
@@ -51,7 +51,7 @@ namespace ClubDeportivo
 
             // 3. Instanciamos la clase Socios de la capa Datos y llamamos al método
             Datos.Socios dato = new Datos.Socios();
-            string respuesta = dato.Nuevo_Socio(nuevoSocio);
+            string respuesta = dato.NuevoSocio(nuevoSocio);
 
             // 4. Analizamos la respuesta de la base de datos (Recordemos que 1 significa que ya existe)
             if (respuesta == "1")
