@@ -20,8 +20,6 @@ namespace ClubDeportivo
             InitializeComponent();
         }
 
-<<<<<<< HEAD
-=======
         private void CmbHorarios_SelectedValueChanged(object sender, EventArgs e)
         {
             try
@@ -144,8 +142,6 @@ namespace ClubDeportivo
             if (parts.Length >= 2) return parts[0].PadLeft(2, '0') + ":" + parts[1].PadLeft(2, '0');
             return s;
         }
-
->>>>>>> master
         private void BtnVolver_Click(object sender, EventArgs e)
         {
             // Show the main form instead of exiting the application
