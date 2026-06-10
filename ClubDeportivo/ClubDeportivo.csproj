@@ -115,8 +115,15 @@
     <Compile Include="Datos\HorarioRepositorio.cs" />
     <Compile Include="Datos\PlanPagoRepositorio.cs" />
     <Compile Include="Datos\Socios.cs" />
+    <Compile Include="Datos\TablaRepositorio.cs" />
     <Compile Include="Datos\Usuarios.cs" />
-    <Compile Include="Entidades\E_Socio.cs" />
+    <Compile Include="Entidades\Socio.cs" />
+    <Compile Include="frmCuota.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCuota.Designer.cs">
+      <DependentUpon>frmCuota.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,8 +142,17 @@
     <Compile Include="frmRegistro.Designer.cs">
       <DependentUpon>frmRegistro.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmTabla.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTabla.Designer.cs">
+      <DependentUpon>frmTabla.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmCuota.resx">
+      <DependentUpon>frmCuota.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
@@ -145,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmRegistro.resx">
       <DependentUpon>frmRegistro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTabla.resx">
+      <DependentUpon>frmTabla.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

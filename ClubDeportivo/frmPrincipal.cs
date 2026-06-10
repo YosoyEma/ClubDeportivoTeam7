@@ -17,15 +17,32 @@ namespace ClubDeportivo
             InitializeComponent();
         }
 
-        private void btnSalir_Click(object sender, EventArgs e)
+        private void BtnSalir_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void btnRegistrar_Click(object sender, EventArgs e)
+        private void BtnRegistrar_Click(object sender, EventArgs e)
         {
             frmRegistro ventanaRegistro = new frmRegistro();
-            ventanaRegistro.ShowDialog();
+            ventanaRegistro.Show();
+            this.Hide();
         }
+
+        private void BtnRegistrarPago_Click(object sender, EventArgs e)
+        {
+            // Open the payment form (FrmCuota)
+            FrmCuota ventanaPago = new FrmCuota();
+            ventanaPago.Show();
+            this.Hide();
+        }
+
+        private void BtnListadoVencimientos_Click(object sender, EventArgs e)
+        {
+            FrmTabla ventanaTabla = new FrmTabla();
+            ventanaTabla.Show();
+            this.Hide();
+        }
+
     }
 }
