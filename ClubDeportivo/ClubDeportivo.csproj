@@ -110,7 +110,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datos\ActividadRepositorio.cs" />
     <Compile Include="Datos\Conexion.cs" />
+    <Compile Include="Datos\HorarioRepositorio.cs" />
+    <Compile Include="Datos\PlanPagoRepositorio.cs" />
     <Compile Include="Datos\Socios.cs" />
     <Compile Include="Datos\TablaRepositorio.cs" />
     <Compile Include="Datos\Usuarios.cs" />
