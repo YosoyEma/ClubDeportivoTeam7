@@ -31,18 +31,18 @@ namespace ClubDeportivo
 
                 dgvDeudas.DataSource = tabla;
 
-                // Make columns fill the full width of the grid
+                // Hacer columnas ocupar ancho completo de la grilla
                 dgvDeudas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 dgvDeudas.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
 
-                // Set sensible minimum widths and default fill weight
+                // Establecer anchos mínimos razonables y peso fill por defecto
                 foreach (DataGridViewColumn col in dgvDeudas.Columns)
                 {
                     col.MinimumWidth = 60;
-                    col.FillWeight = 100; // default proportion
+                    col.FillWeight = 100; // proporción por defecto
                 }
 
-                // Adjust relative widths for known columns
+                // Ajustar anchos relativos para columnas conocidas
                 if (dgvDeudas.Columns.Contains("NroSocio")) dgvDeudas.Columns["NroSocio"].FillWeight = 10;
                 if (dgvDeudas.Columns.Contains("DNI")) dgvDeudas.Columns["DNI"].FillWeight = 20;
                 if (dgvDeudas.Columns.Contains("Nombre")) dgvDeudas.Columns["Nombre"].FillWeight = 35;
@@ -51,32 +51,32 @@ namespace ClubDeportivo
 
                 dgvDeudas.AutoResizeColumns();
 
-                // Ensure the grid shows at least 6 rows in height; use RowTemplate.Height as baseline
+                // Asegurar que la grilla muestre al menos 6 filas de alto; usar RowTemplate.Height
                 const int minVisibleRows = 6;
                 int rowHeight = dgvDeudas.RowTemplate.Height;
                 if (dgvDeudas.Rows.Count > 0)
                 {
-                    // If rows exist, use the first row height which may reflect autosizing
+                // Si hay filas, usar la altura de la primera fila que puede reflejar autosize
                     rowHeight = dgvDeudas.Rows[0].Height;
                 }
 
                 int headerHeight = dgvDeudas.ColumnHeadersHeight;
-                int desiredHeight = headerHeight + (rowHeight * minVisibleRows) + 4; // small padding
+                int desiredHeight = headerHeight + (rowHeight * minVisibleRows) + 4; // padding pequeño
 
-                // Only increase height if current height is smaller than desired; otherwise keep designer size
+                // Solo aumentar alto si actual es menor al deseado; sino mantener tamaño diseñador
                 if (dgvDeudas.Height < desiredHeight)
                 {
                     dgvDeudas.Height = desiredHeight;
                 }
 
-                // Enable vertical scrollbar if needed
+                // Habilitar barra scroll vertical si es necesario
                 dgvDeudas.ScrollBars = ScrollBars.Vertical;
             }
             catch (MySql.Data.MySqlClient.MySqlException mex)
             {
                 if (mex.Number == 1146)
                 {
-                    // Table doesn't exist: show available tables to help diagnose
+                    // Tabla no existe: mostrar tablas disponibles para diagnóstico
                     try
                     {
                         var repo = new Datos.TablaRepositorio();

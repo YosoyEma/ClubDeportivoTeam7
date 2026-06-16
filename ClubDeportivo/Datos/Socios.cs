@@ -15,7 +15,7 @@ namespace ClubDeportivo.Datos
         /// Crea persona, socio e inserta una inscripcion en la misma operación (llama a procedimiento almacenado Nuevo_Socio_Inscripcion)
         /// Devuelve: "1" si el DNI ya existe, "-1" en error, o el idSocio creado como string en caso de éxito.
         /// </summary>
-        public string NuevoSocioConInscripcion(Entidades.Socio socio, int idHorario, int idPlan, DateTime fechaInicio)
+        public string NuevoSocioConInscripcion(Entidades.Socio socio, int idHorario, int idPlan, DateTime fechaInicio, DateTime fechaEntregaCarnet)
         {
             string salida;
             MySqlConnection sqlCon = new MySqlConnection();
@@ -34,9 +34,8 @@ namespace ClubDeportivo.Datos
                 comando.Parameters.Add("p_idPlan", MySqlDbType.Int32).Value = idPlan;
                 comando.Parameters.Add("p_fechaInicio", MySqlDbType.Date).Value = fechaInicio;
 
-                // fechaEntregaCarnet: 7 days from today (date only)
-                DateTime fechaEntregaCarnet = DateTime.Today.AddDays(7);
-                comando.Parameters.Add("p_fechaEntregaCarnet", MySqlDbType.Date).Value = fechaEntregaCarnet;
+                // fechaEntregaCarnet passed from caller (date only)
+                comando.Parameters.Add("p_fechaEntregaCarnet", MySqlDbType.Date).Value = fechaEntregaCarnet.Date;
 
                 MySqlParameter parRespuesta = new MySqlParameter();
                 parRespuesta.ParameterName = "r_respuesta";
@@ -51,7 +50,8 @@ namespace ClubDeportivo.Datos
             }
             catch (Exception ex)
             {
-                salida = "-1: " + ex.Message;
+                // Return full exception text to caller for debugging stored procedure failures
+                salida = "-1: " + ex.ToString();
             }
             finally
             {

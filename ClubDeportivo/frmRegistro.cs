@@ -13,9 +13,9 @@ namespace ClubDeportivo
 {
     public partial class frmRegistro : Form
     {
-        // cache of horarios to avoid extra DB calls
+        // caché de horarios para evitar llamadas extra a BD
         private DataTable _horariosCache;
-        // random generator for importe amounts
+        // generador aleatorio para importes
         private static readonly Random _rand = new Random();
 
         public frmRegistro()
@@ -28,14 +28,14 @@ namespace ClubDeportivo
             PopulateFechaFromHorario(cmbHorarios, cmbFechaInicio);
         }
 
-        /// <summary>
-        /// Devuelve las próximas 'count' fechas que caen en el día de la semana indicado.
-        /// diaNumero: 1=Monday .. 7=Sunday
-        /// </summary>
+    /// <summary>
+    /// Devuelve las próximas 'count' fechas que caen en el día de la semana indicado.
+    /// diaNumero: 1=Lunes .. 7=Domingo
+    /// </summary>
         private List<DateTime> GetNextOccurrences(int diaNumero, int count)
         {
             var result = new List<DateTime>();
-            // Map 1=Monday..7=Sunday to DayOfWeek
+            // Mapear 1=Lunes..7=Domingo a DayOfWeek
             DayOfWeek target = DayOfWeek.Monday;
             switch (diaNumero)
             {
@@ -50,11 +50,11 @@ namespace ClubDeportivo
 
             DateTime current = DateTime.Today;
 
-            // Find the next date (including today if it matches)
+            // Encontrar la siguiente fecha (incluye hoy si coincide)
             int daysToAdd = ((int)target - (int)current.DayOfWeek + 7) % 7;
             if (daysToAdd == 0)
             {
-                // If today is the target, start from next week to match requirement of 'next three'
+                // Si hoy es el día objetivo, empezar la próxima semana para obtener 'siguientes tres'
                 daysToAdd = 7;
             }
 
@@ -91,7 +91,7 @@ namespace ClubDeportivo
         {
             if (horaValue == null) return string.Empty;
 
-            // Try parse as TimeSpan or DateTime, otherwise fallback to string and trim seconds
+            // Intentar parsear como TimeSpan o DateTime, sino fallback a string y quitar segundos
             TimeSpan ts;
             DateTime dt;
             var s = horaValue.ToString();
@@ -104,14 +104,14 @@ namespace ClubDeportivo
                 return dt.ToString("HH:mm");
             }
 
-            // Fallback: try to remove seconds if present like HH:mm:ss
+            // Fallback: quitar segundos si existen como HH:mm:ss
             var parts = s.Split(':');
             if (parts.Length >= 2) return parts[0].PadLeft(2, '0') + ":" + parts[1].PadLeft(2, '0');
             return s;
         }
         private void BtnVolver_Click(object sender, EventArgs e)
         {
-            // Show the main form instead of exiting the application
+            // Mostrar formulario principal en lugar de cerrar la app
             var main = Application.OpenForms.OfType<frmPrincipal>().FirstOrDefault();
             if (main != null)
             {
@@ -127,10 +127,10 @@ namespace ClubDeportivo
 
         private void BtnGuardar_Click(object sender, EventArgs e)
         {
-            // Decide which tab is active: Socio or NoSocio
+            // Decidir pestaña activa: Socio o NoSocio
             if (tabControl.SelectedTab == tabPageNoSocio)
             {
-                // NoSocio flow
+                // Flujo NoSocio
                 if (txtDNI_n.Text == "" || txtNombre_n.Text == "" || txtApellido_n.Text == "")
                 {
                     MessageBox.Show("Debe completar todos los campos requeridos para No Socio.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -161,13 +161,20 @@ namespace ClubDeportivo
                     return;
                 }
 
-                // Try to parse importe from labelCantidadDinero (fallback to 0)
+                // Parsear importe desde labelCantidadDinero (si falla usa 0)
                 decimal importe = 0m;
-                var txt = labelCantidadDinero.Text ?? string.Empty;
-                if (!decimal.TryParse(txt, NumberStyles.Any, CultureInfo.CurrentCulture, out importe))
+                var txt = (labelCantidadDinero.Text ?? string.Empty).Trim();
+                // limpiar formato común (símbolos moneda, espacios)
+                txt = txt.Replace("$", string.Empty).Replace("€", string.Empty).Replace("\u00A0", " ").Trim();
+
+                // Intentar parse con cultura actual, luego invariante
+                if (!decimal.TryParse(txt, NumberStyles.Currency, CultureInfo.CurrentCulture, out importe))
                 {
-                    // attempt invariant culture
-                    decimal.TryParse(txt, NumberStyles.Any, CultureInfo.InvariantCulture, out importe);
+                    if (!decimal.TryParse(txt, NumberStyles.Currency, CultureInfo.InvariantCulture, out importe))
+                    {
+                        // Último recurso: parse numérico permitiendo puntos/comas
+                        decimal.TryParse(txt, NumberStyles.Number, CultureInfo.CurrentCulture, out importe);
+                    }
                 }
 
                 var repoNo = new Datos.NoSocioRepositorio();
@@ -180,7 +187,7 @@ namespace ClubDeportivo
                 else
                 {
                     MessageBox.Show("No socio y visita registrados exitosamente. Número de visita: " + resp, "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    // clear fields
+                    // limpiar campos
                     txtDNI_n.Text = "";
                     txtNombre_n.Text = "";
                     txtApellido_n.Text = "";
@@ -193,7 +200,7 @@ namespace ClubDeportivo
             }
             else
             {
-                // Socio flow (existing)
+                // Flujo Socio
                 if (txtDNI.Text == "" || txtNombre.Text == "" || txtApellido.Text == "" || txtTelefono.Text == "")
                 {
                     MessageBox.Show("Debe completar todos los campos requeridos.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -240,9 +247,16 @@ namespace ClubDeportivo
                     return;
                 }
 
-                // 4. Instanciamos la clase Socios de la capa Datos y llamamos al método que crea socio + inscripcion
+                // 4. Calcular fechaEntregaCarnet y llamar capa datos para crear persona, socio, inscripcion y cuota inicial
+                DateTime fechaEntregaCarnet = DateTime.Today.AddDays(7);
+
                 Datos.Socios dato = new Datos.Socios();
-                string respuesta = dato.NuevoSocioConInscripcion(nuevoSocio, idHorario, idPlan, fechaInicio);
+                string respuesta = dato.NuevoSocioConInscripcion(nuevoSocio, idHorario, idPlan, fechaInicio, fechaEntregaCarnet);
+
+                // preparar info de depuración para BD
+                string debugInfo = string.Format("Params: DNI={0}, idHorario={1}, idPlan={2}, fechaInicio={3:yyyy-MM-dd}, fechaEntregaCarnet={4:yyyy-MM-dd}",
+                    nuevoSocio.DNI, idHorario, idPlan, fechaInicio, fechaEntregaCarnet);
+                System.Diagnostics.Debug.WriteLine("NuevoSocioConInscripcion -> " + debugInfo + " | Response: " + respuesta);
 
                 // 5. Analizamos la respuesta de la base de datos
                 if (respuesta == "1")
@@ -251,15 +265,16 @@ namespace ClubDeportivo
                 }
                 else if (respuesta.StartsWith("-1"))
                 {
-                    MessageBox.Show("Error registrando socio/inscripción: " + respuesta, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // mostrar error al usuario
+                    MessageBox.Show("Error registrando socio/inscripción:\n" + respuesta, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    // fechaEntregaCarnet is 7 days from today
-                    DateTime fechaEntregaCarnet = DateTime.Today.AddDays(7);
+                    // Mostrar fechaEntregaCarnet enviada a BD (info mínima para usuario)
                     MessageBox.Show($"Socio registrado correctamente.\n\n" +
                                     $"Estado: Activo\n" +
-                                    $"Fecha estimada de entrega del carnet: {fechaEntregaCarnet:dd/MM/yyyy}",
+                                    $"Fecha estimada de entrega del carnet: {fechaEntregaCarnet:dd/MM/yyyy}\n\n" +
+                                    $"IdSocio asignado: {respuesta}",
                                     "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // Limpiamos los campos para una nueva carga
@@ -286,32 +301,32 @@ namespace ClubDeportivo
                 cmbActividad.ValueMember = "IdActividad";
                 cmbActividad.DataSource = tabla;
 
-                // Populate non-socio activity combobox as well
+                // Poblar combobox actividad para No Socio también
                 comboBoxActividadNoSocio.DisplayMember = "Nombre";
                 comboBoxActividadNoSocio.ValueMember = "IdActividad";
                 comboBoxActividadNoSocio.DataSource = tabla;
 
-                // Preload horarios cache
+                // Precargar caché de horarios
                 var repoHor = new Datos.HorarioRepositorio();
                 _horariosCache = repoHor.ObtenerHorarios();
 
-                // Attach handler for activity changes
+                // Conectar manejador para cambio de actividad
                 cmbActividad.SelectedValueChanged += CmbActividad_SelectedValueChanged;
-                // Trigger initial population
+                // Disparar población inicial
                 CmbActividad_SelectedValueChanged(cmbActividad, EventArgs.Empty);
 
-                // Attach handlers and trigger for non-socio controls
+                // Conectar manejadores y disparar para controles No Socio
                 comboBoxActividadNoSocio.SelectedValueChanged += ComboBoxActividadNoSocio_SelectedValueChanged;
                 comboBoxHorarioNoSocio.SelectedValueChanged += ComboBoxHorarioNoSocio_SelectedValueChanged;
                 ComboBoxActividadNoSocio_SelectedValueChanged(comboBoxActividadNoSocio, EventArgs.Empty);
 
-                // Attach handler to populate fecha inicio when horario selected
+                // Conectar manejador para poblar fecha inicio al seleccionar horario
                 cmbHorarios.SelectedValueChanged += CmbHorarios_SelectedValueChanged;
 
-                // Preload plans for cmbPlanPago
+                // Precargar planes para cmbPlanPago
                 var repoPlan = new Datos.PlanPagoRepositorio();
                 var tablaPlanes = repoPlan.ObtenerPlanes();
-                // Add a display column combining descripcion and importe
+                // Agregar columna display combinando descripcion e importe
                 if (!tablaPlanes.Columns.Contains("Display")) tablaPlanes.Columns.Add("Display", typeof(string));
                 foreach (DataRow r in tablaPlanes.Rows)
                 {
@@ -321,7 +336,7 @@ namespace ClubDeportivo
                 cmbPlanPago.ValueMember = "idPlan";
                 cmbPlanPago.DataSource = tablaPlanes;
 
-                // Ensure the first input has focus (Nombre)
+                // Asegurar que el primer campo tenga foco (Nombre)
                 this.ActiveControl = txtNombre;
                 txtNombre.Focus();
             }
@@ -342,13 +357,13 @@ namespace ClubDeportivo
                 int idActividad;
                 if (!int.TryParse(cmbActividad.SelectedValue.ToString(), out idActividad)) return;
 
-                // Filter cached horarios for the selected activity
+                // Filtrar horarios cacheados por actividad seleccionada
                 var view = new DataView(_horariosCache);
                 view.RowFilter = "idActividad = " + idActividad;
 
                 var tablaFiltrada = view.ToTable();
 
-                // Create a display column for user-friendly text (e.g., Lunes 18:00-19:00)
+                // Crear columna display con texto legible (ej. Lunes 18:00-19:00)
                 if (!tablaFiltrada.Columns.Contains("Display"))
                     tablaFiltrada.Columns.Add("Display", typeof(string));
 
@@ -370,7 +385,7 @@ namespace ClubDeportivo
             }
         }
 
-        // Populate horarios for non-socio when activity changes
+        // Poblar horarios para No Socio cuando cambia actividad
         private void ComboBoxActividadNoSocio_SelectedValueChanged(object sender, EventArgs e)
         {
             try
@@ -402,7 +417,7 @@ namespace ClubDeportivo
                 comboBoxHorarioNoSocio.ValueMember = "idHorario";
                 comboBoxHorarioNoSocio.DataSource = tablaFiltrada;
 
-                // Generate a random importe between 2.500 and 15000 and display it
+                // Generar importe aleatorio entre 2500 y 15000 y mostrarlo
                 try
                 {
                     double r = _rand.NextDouble();
@@ -420,13 +435,13 @@ namespace ClubDeportivo
             }
         }
 
-        // Populate fecha asistencia for non-socio when horario selected
+        // Poblar fecha asistencia para No Socio cuando se selecciona horario
         private void ComboBoxHorarioNoSocio_SelectedValueChanged(object sender, EventArgs e)
         {
             PopulateFechaFromHorario(comboBoxHorarioNoSocio, comboBoxFechaAsistencia);
         }
 
-        // Helper to populate a fecha ComboBox from a horario ComboBox (shared behavior)
+        // Ayudante: poblar ComboBox fecha desde ComboBox horario (comportamiento compartido)
         private void PopulateFechaFromHorario(ComboBox horarioCombo, ComboBox fechaCombo)
         {
             try
