@@ -44,5 +44,21 @@ namespace ClubDeportivo
             this.Hide();
         }
 
+        private void btnNoSocio_Click(object sender, EventArgs e)
+        {
+            frmNoSocio ventanaNoSocio = new frmNoSocio();
+            ventanaNoSocio.ShowDialog();
+        }
+
+        private void btnAptoFisico_Click(object sender, EventArgs e)
+        {
+            frmAptoFisico ventanaApto = new frmAptoFisico();
+            ventanaApto.ShowDialog();
+        }
+
+        private void btnSalir_Click_1(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

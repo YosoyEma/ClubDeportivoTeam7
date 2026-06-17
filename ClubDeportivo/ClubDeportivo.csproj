@@ -66,6 +66,7 @@
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MySql.Data, Version=9.7.0.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.9.7.0\lib\net462\MySql.Data.dll</HintPath>
     </Reference>
@@ -120,7 +121,17 @@
     <Compile Include="Datos\TablaRepositorio.cs" />
     <Compile Include="Datos\Usuarios.cs" />
     <Compile Include="Datos\VisitaRepositorio.cs" />
+    <Compile Include="Entidades\AptoRepositorio.cs" />
+    <Compile Include="Entidades\Cuota.cs" />
+    <Compile Include="Entidades\NoSocio.cs" />
+    <Compile Include="Entidades\Persona.cs" />
     <Compile Include="Entidades\Socio.cs" />
+    <Compile Include="frmAptoFisico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAptoFisico.Designer.cs">
+      <DependentUpon>frmAptoFisico.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmCuota.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +143,12 @@
     </Compile>
     <Compile Include="frmLogin.Designer.cs">
       <DependentUpon>frmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNoSocio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNoSocio.Designer.cs">
+      <DependentUpon>frmNoSocio.cs</DependentUpon>
     </Compile>
     <Compile Include="frmPrincipal.cs">
       <SubType>Form</SubType>
@@ -153,11 +170,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmAptoFisico.resx">
+      <DependentUpon>frmAptoFisico.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmCuota.resx">
       <DependentUpon>frmCuota.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNoSocio.resx">
+      <DependentUpon>frmNoSocio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPrincipal.resx">
       <DependentUpon>frmPrincipal.cs</DependentUpon>

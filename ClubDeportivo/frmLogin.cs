@@ -42,34 +42,26 @@ namespace ClubDeportivo
 
         {
 
-            frmPrincipal ventanaPrincipal = new frmPrincipal();
-            ventanaPrincipal.Show();
-            this.Hide();
+            DataTable tablaLogin = new DataTable();
+            Datos.Usuarios dato = new Datos.Usuarios();
 
-            /* DataTable tablaLogin = new DataTable(); // Es la que recibe los datos desde la base de datos
-            Datos.Usuarios dato = new Datos.Usuarios(); // Instanciamos la clase Usuarios que creamos en el paso anterior
-
-            // Llamamos al método Log_Usu pasándole lo que el usuario escribió en las cajas de texto
             tablaLogin = dato.Log_Usu(txtUsuario.Text, txtPass.Text);
 
             if (tablaLogin.Rows.Count > 0)
             {
-                // Si la tabla tiene al menos 1 fila, quiere decir que el usuario EXISTE y la clave es correcta
-                MessageBox.Show("Ingreso exitoso", "Mensaje del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // El resultado tiene 1 fila, por lo que el usuario EXISTE en MySQL
+                MessageBox.Show("Ingreso exitoso", "MENSAJES DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // NOTA: Cuando creen la pantalla del Menú, aquí irá el código para abrirla
+                frmPrincipal Principal = new frmPrincipal();
+                // (Opcional) Si en frmPrincipal definiste variables para recibir el rol, se pasan aquí.
 
-                frmPrincipal ventanaPrincipal = new frmPrincipal();
-                ventanaPrincipal.Show();
-                this.Hide();
-
+                Principal.Show(); // Abre el menú
+                this.Hide();      // Oculta el login
             }
             else
             {
-                // Si la tabla vuelve vacía, los datos son incorrectos
-                MessageBox.Show("Usuario y/o password incorrecto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Usuario y/o contraseña incorrecto", "Error de Autenticación", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            */
         }
     }
 }

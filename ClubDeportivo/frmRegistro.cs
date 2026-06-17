@@ -209,7 +209,7 @@ namespace ClubDeportivo
 
                 // 2. Instanciamos un objeto de la clase Socio y le pasamos los datos de las cajas de texto
                 Entidades.Socio nuevoSocio = new Entidades.Socio();
-                nuevoSocio.DNI = txtDNI.Text;
+                nuevoSocio.Dni = txtDNI.Text;
                 nuevoSocio.Nombre = txtNombre.Text;
                 nuevoSocio.Apellido = txtApellido.Text;
                 nuevoSocio.Telefono = txtTelefono.Text;
@@ -255,7 +255,7 @@ namespace ClubDeportivo
 
                 // preparar info de depuración para BD
                 string debugInfo = string.Format("Params: DNI={0}, idHorario={1}, idPlan={2}, fechaInicio={3:yyyy-MM-dd}, fechaEntregaCarnet={4:yyyy-MM-dd}",
-                    nuevoSocio.DNI, idHorario, idPlan, fechaInicio, fechaEntregaCarnet);
+                    nuevoSocio.Dni, idHorario, idPlan, fechaInicio, fechaEntregaCarnet);
                 System.Diagnostics.Debug.WriteLine("NuevoSocioConInscripcion -> " + debugInfo + " | Response: " + respuesta);
 
                 // 5. Analizamos la respuesta de la base de datos

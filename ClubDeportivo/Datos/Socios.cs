@@ -25,7 +25,7 @@ namespace ClubDeportivo.Datos
                 MySqlCommand comando = new MySqlCommand("Nuevo_Socio_Inscripcion", sqlCon);
                 comando.CommandType = CommandType.StoredProcedure;
 
-                comando.Parameters.Add("p_dni", MySqlDbType.VarChar).Value = socio.DNI;
+                comando.Parameters.Add("p_dni", MySqlDbType.VarChar).Value = socio.Dni;
                 comando.Parameters.Add("p_nombre", MySqlDbType.VarChar).Value = socio.Nombre;
                 comando.Parameters.Add("p_apellido", MySqlDbType.VarChar).Value = socio.Apellido;
                 comando.Parameters.Add("p_telefono", MySqlDbType.VarChar).Value = socio.Telefono;

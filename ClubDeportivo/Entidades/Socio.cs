@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClubDeportivo.Entidades
 {
-    public class Socio
+    public class Socio : Persona
     {
-        // Encapsulamiento de los atributos con get y set
-        public string DNI { get; set; }
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public string Telefono { get; set; }
+        public int NroSocio { get; set; }
+        public bool CarnetEntregado { get; set; }
+        public bool EstadoActivo { get; set; }
+        public override string MostrarDetalle()
+        {
+            return $"Socio Nro: {NroSocio} - Activo: {EstadoActivo}";
+        }
     }
 }

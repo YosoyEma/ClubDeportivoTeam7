@@ -1,5 +1,6 @@
 ﻿using System;
-using MySql.Data.MySqlClient; // Referencia OBLIGATORIA a la librería que instalamos en el Paso 2
+using MySql.Data.MySqlClient;
+using Microsoft.VisualBasic;
 
 namespace ClubDeportivo.Datos
 {
@@ -15,11 +16,16 @@ namespace ClubDeportivo.Datos
 
         private Conexion()  // Constructor: Asignamos valores a las variables
         {
-            this._baseDatos = "Proyecto"; // El nombre exacto de la base de datos que creamos
-            this._servidor = "localhost";
-            this._puerto = "3306"; // Puerto por defecto de MySQL en XAMPP
-            this._usuario = "root";
-            this._clave = "12345678";
+            string T_servidor = Interaction.InputBox("Ingrese servidor", "DATOS DE INSTALACIÓN MySQL", "localhost");
+            string T_puerto = Interaction.InputBox("Ingrese puerto", "DATOS DE INSTALACIÓN MySQL", "3306");
+            string T_usuario = Interaction.InputBox("Ingrese usuario", "DATOS DE INSTALACIÓN MySQL", "root");
+            string T_clave = Interaction.InputBox("Ingrese clave", "DATOS DE INSTALACIÓN MySQL", "");
+
+            this._baseDatos = "Proyecto"; // O el nombre que tenga tu base
+            this._servidor = T_servidor;
+            this._puerto = T_puerto;
+            this._usuario = T_usuario;
+            this._clave = T_clave;
         }
 
         // Proceso de interacción
