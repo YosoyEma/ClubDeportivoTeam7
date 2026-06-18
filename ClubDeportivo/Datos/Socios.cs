@@ -1,21 +1,12 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClubDeportivo.Datos
 {
     internal class Socios
     {
-
-        /// <summary>
-        /// Crea persona, socio e inserta una inscripcion en la misma operación (llama a procedimiento almacenado Nuevo_Socio_Inscripcion)
-        /// Devuelve: "1" si el DNI ya existe, "-1" en error, o el idSocio creado como string en caso de éxito.
-        /// </summary>
-        public string NuevoSocioConInscripcion(Entidades.Socio socio, int idHorario, int idPlan, DateTime fechaInicio, DateTime fechaEntregaCarnet)
+        public string Nuevo_Socio_Inscripcion(string dni, string nombre, string apellido, string telefono, int idHorario, int idPlan, DateTime fechaInicio, DateTime fechaEntregaCarnet)
         {
             string salida;
             MySqlConnection sqlCon = new MySqlConnection();
@@ -25,18 +16,17 @@ namespace ClubDeportivo.Datos
                 MySqlCommand comando = new MySqlCommand("Nuevo_Socio_Inscripcion", sqlCon);
                 comando.CommandType = CommandType.StoredProcedure;
 
-                comando.Parameters.Add("p_dni", MySqlDbType.VarChar).Value = socio.Dni;
-                comando.Parameters.Add("p_nombre", MySqlDbType.VarChar).Value = socio.Nombre;
-                comando.Parameters.Add("p_apellido", MySqlDbType.VarChar).Value = socio.Apellido;
-                comando.Parameters.Add("p_telefono", MySqlDbType.VarChar).Value = socio.Telefono;
-
+                // 8 Parámetros de entrada EXACTAMENTE como se llaman en MySQL
+                comando.Parameters.Add("p_dni", MySqlDbType.VarChar).Value = dni;
+                comando.Parameters.Add("p_nombre", MySqlDbType.VarChar).Value = nombre;
+                comando.Parameters.Add("p_apellido", MySqlDbType.VarChar).Value = apellido;
+                comando.Parameters.Add("p_telefono", MySqlDbType.VarChar).Value = telefono;
                 comando.Parameters.Add("p_idHorario", MySqlDbType.Int32).Value = idHorario;
                 comando.Parameters.Add("p_idPlan", MySqlDbType.Int32).Value = idPlan;
                 comando.Parameters.Add("p_fechaInicio", MySqlDbType.Date).Value = fechaInicio;
+                comando.Parameters.Add("p_fechaEntregaCarnet", MySqlDbType.Date).Value = fechaEntregaCarnet;
 
-                // fechaEntregaCarnet passed from caller (date only)
-                comando.Parameters.Add("p_fechaEntregaCarnet", MySqlDbType.Date).Value = fechaEntregaCarnet.Date;
-
+                // Parámetro de salida EXACTAMENTE como lo pide MySQL (ESTO SOLUCIONA EL ERROR)
                 MySqlParameter parRespuesta = new MySqlParameter();
                 parRespuesta.ParameterName = "r_respuesta";
                 parRespuesta.MySqlDbType = MySqlDbType.Int32;
@@ -45,20 +35,15 @@ namespace ClubDeportivo.Datos
 
                 sqlCon.Open();
                 comando.ExecuteNonQuery();
-
                 salida = Convert.ToString(parRespuesta.Value);
             }
             catch (Exception ex)
             {
-                // Return full exception text to caller for debugging stored procedure failures
-                salida = "-1: " + ex.ToString();
+                salida = ex.Message;
             }
             finally
             {
-                if (sqlCon.State == ConnectionState.Open)
-                {
-                    sqlCon.Close();
-                }
+                if (sqlCon.State == ConnectionState.Open) sqlCon.Close();
             }
             return salida;
         }

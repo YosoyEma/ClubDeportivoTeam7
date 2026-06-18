@@ -24,24 +24,22 @@ namespace ClubDeportivo
 
         private void BtnRegistrar_Click(object sender, EventArgs e)
         {
-            frmRegistro ventanaRegistro = new frmRegistro();
-            ventanaRegistro.Show();
-            this.Hide();
+            frmRegistro registro = new frmRegistro();
+            registro.ShowDialog();
         }
 
         private void BtnRegistrarPago_Click(object sender, EventArgs e)
         {
-            // Open the payment form (FrmCuota)
+            // Abrimos el formulario de pago como ventana Modal
             FrmCuota ventanaPago = new FrmCuota();
-            ventanaPago.Show();
-            this.Hide();
+            ventanaPago.ShowDialog();
         }
 
         private void BtnListadoVencimientos_Click(object sender, EventArgs e)
         {
+            // Abrimos la tabla de vencimientos como ventana Modal
             FrmTabla ventanaTabla = new FrmTabla();
-            ventanaTabla.Show();
-            this.Hide();
+            ventanaTabla.ShowDialog();
         }
 
         private void btnNoSocio_Click(object sender, EventArgs e)

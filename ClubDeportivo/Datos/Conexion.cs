@@ -60,5 +60,11 @@ namespace ClubDeportivo.Datos
             }
             return _instancia;
         }
+
+        // Método para reiniciar el Singleton si la conexión falla
+        public static void ReiniciarConexion()
+        {
+            _instancia = null;
+        }
     }
 }

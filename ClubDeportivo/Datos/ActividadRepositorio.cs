@@ -12,24 +12,27 @@ namespace ClubDeportivo.Datos
         public DataTable ObtenerActividades()
         {
             var tabla = new DataTable();
-            string sql = "SELECT idActividad AS IdActividad, nombre AS Nombre FROM Actividad ORDER BY nombre";
+            // ¡AQUÍ ESTÁ EL CAMBIO! Agregamos importeclaseindividual AS Importe
+            string sql = "SELECT idActividad AS IdActividad, nombre AS Nombre, importeclaseindividual AS Importe FROM Actividad ORDER BY nombre";
 
+            MySqlConnection sqlCon = new MySqlConnection();
             try
             {
-                using (var conexion = Conexion.GetInstancia().CrearConexion())
-                using (var cmd = new MySqlCommand(sql, conexion))
-                using (var adapter = new MySqlDataAdapter(cmd))
-                {
-                    cmd.CommandType = CommandType.Text;
-                    adapter.Fill(tabla);
-                }
-
-                return tabla;
+                sqlCon = Conexion.GetInstancia().CrearConexion();
+                MySqlCommand comando = new MySqlCommand(sql, sqlCon);
+                sqlCon.Open();
+                MySqlDataReader reader = comando.ExecuteReader();
+                tabla.Load(reader);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
+            finally
+            {
+                if (sqlCon.State == ConnectionState.Open) sqlCon.Close();
+            }
+            return tabla;
         }
     }
 }

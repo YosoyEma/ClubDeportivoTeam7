@@ -38,29 +38,37 @@ namespace ClubDeportivo
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)
-
-
         {
-
-            DataTable tablaLogin = new DataTable();
-            Datos.Usuarios dato = new Datos.Usuarios();
-
-            tablaLogin = dato.Log_Usu(txtUsuario.Text, txtPass.Text);
-
-            if (tablaLogin.Rows.Count > 0)
+            try
             {
-                // El resultado tiene 1 fila, por lo que el usuario EXISTE en MySQL
-                MessageBox.Show("Ingreso exitoso", "MENSAJES DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // 1. Instanciamos las clases y buscamos el usuario
+                DataTable tablaLogin = new DataTable();
+                Datos.Usuarios dato = new Datos.Usuarios();
 
-                frmPrincipal Principal = new frmPrincipal();
-                // (Opcional) Si en frmPrincipal definiste variables para recibir el rol, se pasan aquí.
+                tablaLogin = dato.Log_Usu(txtUsuario.Text, txtPass.Text);
 
-                Principal.Show(); // Abre el menú
-                this.Hide();      // Oculta el login
+                // 2. Evaluamos si el usuario de la app existe
+                if (tablaLogin.Rows.Count > 0)
+                {
+                    MessageBox.Show("Ingreso exitoso", "MENSAJES DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    frmPrincipal Principal = new frmPrincipal();
+                    Principal.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("Usuario y/o contraseña incorrecto", "Error de Autenticación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Usuario y/o contraseña incorrecto", "Error de Autenticación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Si la conexión a MySQL falla por una mala contraseña, se ataja el error y se muestra este cartel:
+                MessageBox.Show("No se pudo conectar a la base de datos MySQL. Revise que los datos ingresados (Servidor, Puerto, Usuario y Clave) sean los correctos.\n\nDetalle técnico: " + ex.Message,
+                                "Error de Conexión a Base de Datos",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                Datos.Conexion.ReiniciarConexion();
             }
         }
     }
