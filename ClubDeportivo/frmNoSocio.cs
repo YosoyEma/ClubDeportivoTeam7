@@ -46,7 +46,6 @@ namespace ClubDeportivo
             int idHorario = Convert.ToInt32(cboHorarios.SelectedValue);
             DateTime fechaAsistencia = dtpFechaAsistencia.Value;
 
-            // --- NUEVA VALIDACIÓN SEGURA DEL IMPORTE ---
             // Intentamos convertir el texto a decimal. Si falla, avisamos y cortamos la ejecución.
             bool esImporteValido = decimal.TryParse(txtImporte.Text, out decimal importe);
 
@@ -56,7 +55,7 @@ namespace ClubDeportivo
                 return;
             }
 
-            // 4. Instanciamos el repositorio y enviamos a la BD usando el Stored Procedure de Enzo
+            // 4. Instanciamos el repositorio y enviamos a la BD usando el Stored Procedure
             Datos.NoSocioRepositorio repo = new Datos.NoSocioRepositorio();
             string respuesta = repo.Nuevo_NoSocio_Visita(nuevoNoSocio.Dni, nuevoNoSocio.Nombre, nuevoNoSocio.Apellido, nuevoNoSocio.Telefono, idHorario, fechaAsistencia, importe);
 
@@ -105,7 +104,7 @@ namespace ClubDeportivo
             }
         }
 
-        // Nuevo evento: Filtra los horarios cuando elegís una actividad
+        //: Filtra los horarios cuando elegís una actividad
         private void cboActividad_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Verificamos que haya una actividad seleccionada
@@ -124,7 +123,6 @@ namespace ClubDeportivo
                     dvHorarios.RowFilter = "idActividad = " + idActividadElegida;
 
                     cboHorarios.DataSource = dvHorarios.ToTable();
-                    // ¡ACÁ ESTÁ EL CAMBIO! Ahora lee la frase completa armada en la BD
                     cboHorarios.DisplayMember = "Detalle";
                     cboHorarios.ValueMember = "idHorario";
                     cboHorarios.SelectedIndex = -1;

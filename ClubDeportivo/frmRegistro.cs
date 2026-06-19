@@ -13,7 +13,7 @@ namespace ClubDeportivo
 {
     public partial class frmRegistro : Form
     {
-        // Caché de horarios para evitar llamadas extra a BD (creado por Enzo)
+        // Caché de horarios para evitar llamadas extra a BD
         private DataTable _horariosCache;
         // Generador aleatorio para importes
         private static readonly Random _rand = new Random();
@@ -50,16 +50,15 @@ namespace ClubDeportivo
                 nuevoSocio.Telefono = txtTelefono.Text;
 
                 // 3. Capturamos los datos específicos de los controles de Membresía
-                // (Se asume que Enzo ya configuró el 'ValueMember' de estos combos para que guarden el ID)
                 int idHorario = Convert.ToInt32(cboHorarios.SelectedValue);
                 int idPlan = Convert.ToInt32(cboPlanPago.SelectedValue);
                 DateTime fechaInicio = dtpFechaInicio.Value;
                 DateTime fechaEntregaCarnet = DateTime.Now; // Fecha actual de entrega
 
                 // 4. Enviamos al repositorio (Capa de Datos)
-                Datos.Socios repo = new Datos.Socios();
+                Datos.SociosRepositorio repo = new Datos.SociosRepositorio();
 
-                // Conectamos con el método que llama al Stored Procedure de Enzo
+                // Conectamos con el método que llama al Stored Procedure
                 string respuesta = repo.Nuevo_Socio_Inscripcion(
                     nuevoSocio.Dni,
                     nuevoSocio.Nombre,
@@ -125,7 +124,7 @@ namespace ClubDeportivo
                 cboPlanPago.ValueMember = "idPlan";
                 cboPlanPago.SelectedIndex = -1;
 
-                // 3. Traer los Horarios a la memoria caché de Enzo
+                // 3. Traer los Horarios a la memoria caché
                 Datos.HorarioRepositorio repoHorario = new Datos.HorarioRepositorio();
                 _horariosCache = repoHorario.ObtenerHorarios();
             }
@@ -147,7 +146,7 @@ namespace ClubDeportivo
                 dvHorarios.RowFilter = "idActividad = " + idActividadElegida;
 
                 cboHorarios.DataSource = dvHorarios.ToTable();
-                // ¡ACÁ ESTÁ EL CAMBIO! Ahora lee la frase completa armada en la BD
+                // Ahora lee la frase completa armada en la BD
                 cboHorarios.DisplayMember = "Detalle";
                 cboHorarios.ValueMember = "idHorario";
                 cboHorarios.SelectedIndex = -1;

@@ -15,7 +15,7 @@ namespace ClubDeportivo.Datos
                 // 1. Instanciamos la conexión
                 sqlCon = Conexion.GetInstancia().CrearConexion();
 
-                // 2. Apuntamos al Procedimiento Almacenado de Enzo
+                // 2. Apuntamos al Procedimiento Almacenado
                 MySqlCommand comando = new MySqlCommand("Nuevo_NoSocio_Visita", sqlCon);
                 comando.CommandType = CommandType.StoredProcedure;
 

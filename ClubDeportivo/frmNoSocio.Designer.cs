@@ -308,7 +308,7 @@
             this.ClientSize = new System.Drawing.Size(619, 331);
             this.Controls.Add(this.tabControl);
             this.Name = "frmNoSocio";
-            this.Text = "frmNoSocio";
+            this.Text = "Club Deportivo - Registrar Visita";
             this.Load += new System.EventHandler(this.frmNoSocio_Load);
             this.tabControl.ResumeLayout(false);
             this.tabPageNoSocio.ResumeLayout(false);

@@ -4,7 +4,7 @@ using System.Data;
 
 namespace ClubDeportivo.Datos
 {
-    internal class Socios
+    internal class SociosRepositorio
     {
         public string Nuevo_Socio_Inscripcion(string dni, string nombre, string apellido, string telefono, int idHorario, int idPlan, DateTime fechaInicio, DateTime fechaEntregaCarnet)
         {

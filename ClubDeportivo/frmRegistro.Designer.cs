@@ -330,7 +330,7 @@
             this.ClientSize = new System.Drawing.Size(619, 331);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Name = "frmRegistro";
-            this.Text = "Registro - Club de barrio";
+            this.Text = "Club Deportivo - Registrar Nuevo Socio";
             this.Load += new System.EventHandler(this.frmRegistro_Load);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);

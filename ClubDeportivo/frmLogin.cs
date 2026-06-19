@@ -43,7 +43,7 @@ namespace ClubDeportivo
             {
                 // 1. Instanciamos las clases y buscamos el usuario
                 DataTable tablaLogin = new DataTable();
-                Datos.Usuarios dato = new Datos.Usuarios();
+                Datos.UsuariosRepositorio dato = new Datos.UsuariosRepositorio();
 
                 tablaLogin = dato.Log_Usu(txtUsuario.Text, txtPass.Text);
 

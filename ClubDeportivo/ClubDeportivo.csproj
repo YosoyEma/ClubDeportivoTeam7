@@ -117,12 +117,13 @@
     <Compile Include="Datos\HorarioRepositorio.cs" />
     <Compile Include="Datos\NoSocioRepositorio.cs" />
     <Compile Include="Datos\PlanPagoRepositorio.cs" />
-    <Compile Include="Datos\Socios.cs" />
+    <Compile Include="Datos\SociosRepositorio.cs" />
     <Compile Include="Datos\TablaRepositorio.cs" />
-    <Compile Include="Datos\Usuarios.cs" />
+    <Compile Include="Datos\UsuariosRepositorio.cs" />
     <Compile Include="Datos\VisitaRepositorio.cs" />
-    <Compile Include="Entidades\AptoRepositorio.cs" />
+    <Compile Include="Datos\AptoRepositorio.cs" />
     <Compile Include="Entidades\Cuota.cs" />
+    <Compile Include="Entidades\IComprobante.cs" />
     <Compile Include="Entidades\NoSocio.cs" />
     <Compile Include="Entidades\Persona.cs" />
     <Compile Include="Entidades\Socio.cs" />

@@ -36,7 +36,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(96, 117);
+            this.label1.Location = new System.Drawing.Point(149, 123);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(93, 16);
             this.label1.TabIndex = 0;
@@ -44,16 +44,16 @@
             // 
             // txtDNI
             // 
-            this.txtDNI.Location = new System.Drawing.Point(300, 117);
+            this.txtDNI.Location = new System.Drawing.Point(248, 120);
             this.txtDNI.Name = "txtDNI";
-            this.txtDNI.Size = new System.Drawing.Size(100, 22);
+            this.txtDNI.Size = new System.Drawing.Size(200, 22);
             this.txtDNI.TabIndex = 1;
             // 
             // btnRegistrarApto
             // 
-            this.btnRegistrarApto.Location = new System.Drawing.Point(514, 117);
+            this.btnRegistrarApto.Location = new System.Drawing.Point(248, 172);
             this.btnRegistrarApto.Name = "btnRegistrarApto";
-            this.btnRegistrarApto.Size = new System.Drawing.Size(184, 23);
+            this.btnRegistrarApto.Size = new System.Drawing.Size(200, 30);
             this.btnRegistrarApto.TabIndex = 2;
             this.btnRegistrarApto.Text = "Registrar Apto Físico";
             this.btnRegistrarApto.UseVisualStyleBackColor = true;
@@ -63,12 +63,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(619, 331);
             this.Controls.Add(this.btnRegistrarApto);
             this.Controls.Add(this.txtDNI);
             this.Controls.Add(this.label1);
             this.Name = "frmAptoFisico";
-            this.Text = "frmAptoFisico";
+            this.Text = "Club Deportivo - Registrar Apto Físico";
             this.ResumeLayout(false);
             this.PerformLayout();
 

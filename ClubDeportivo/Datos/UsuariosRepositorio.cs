@@ -4,7 +4,7 @@ using MySql.Data.MySqlClient;
 
 namespace ClubDeportivo.Datos
 {
-    internal class Usuarios
+    internal class UsuariosRepositorio
     {
         // Creamos un método que retorne una tabla con la información
         public DataTable Log_Usu(string L_Usu, string P_Usu)
