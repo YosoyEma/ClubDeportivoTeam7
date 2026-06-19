@@ -54,6 +54,21 @@ namespace ClubDeportivo
 
                     frmPrincipal Principal = new frmPrincipal();
                     Principal.Show();
+
+                    // Also open FrmTabla with the "solo vencidos" filter applied and keep it on top of Principal
+                    try
+                    {
+                        var tabla = new FrmTabla();
+                        // Ask FrmTabla to select the "vencen hoy" filter when it loads
+                        tabla.SelectPagarHoy();
+                        // Show the table as owned by Principal so it stays on top of the main window
+                        tabla.Show(Principal);
+                    }
+                    catch
+                    {
+                        // If anything fails opening the table, ignore to not block login
+                    }
+
                     this.Hide();
                 }
                 else
