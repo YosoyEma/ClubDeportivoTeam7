@@ -179,6 +179,147 @@ namespace ClubDeportivo.Datos
         }
 
         /// <summary>
+        /// Obtiene registros de nosocios (visitas) para mostrar en una grilla.
+        /// </summary>
+        public DataTable ObtenerNoSocios()
+        {
+            var tabla = new DataTable();
+            string sql = "SELECT n.nroVisita AS NroVisita, p.dni AS DNI, p.nombre AS Nombre, p.apellido AS Apellido, p.telefono AS Telefono FROM nosocio n INNER JOIN persona p ON n.persona_dni = p.dni ORDER BY n.nroVisita DESC";
+
+            using (var conexion = Conexion.GetInstancia().CrearConexion())
+            using (var comando = new MySqlCommand(sql, conexion))
+            using (var adapter = new MySqlDataAdapter(comando))
+            {
+                comando.CommandType = CommandType.Text;
+                adapter.Fill(tabla);
+            }
+
+            return tabla;
+        }
+
+        /// <summary>
+        /// Obtiene socios que están inscriptos en una actividad específica.
+        /// </summary>
+        public DataTable ObtenerSociosPorActividad(int idActividad)
+        {
+            var tabla = new DataTable();
+            string sql = "SELECT DISTINCT s.idSocio AS NroSocio, p.dni AS DNI, p.nombre AS Nombre, p.apellido AS Apellido, p.telefono AS Telefono FROM socio s INNER JOIN persona p ON s.persona_dni = p.dni JOIN inscripcion i ON i.idSocio = s.idSocio JOIN horarioactividad h ON i.idHorario = h.idHorario WHERE h.idActividad = @id ORDER BY s.idSocio ASC";
+
+            using (var conexion = Conexion.GetInstancia().CrearConexion())
+            using (var cmd = new MySqlCommand(sql, conexion))
+            using (var adapter = new MySqlDataAdapter(cmd))
+            {
+                cmd.Parameters.AddWithValue("@id", idActividad);
+                cmd.CommandType = CommandType.Text;
+                adapter.Fill(tabla);
+            }
+
+            return tabla;
+        }
+
+        /// <summary>
+        /// Obtiene nosocios que asistieron a una actividad específica (basado en visitaactividad).
+        /// </summary>
+        public DataTable ObtenerNoSociosPorActividad(int idActividad)
+        {
+            var tabla = new DataTable();
+            string sql = "SELECT DISTINCT n.nroVisita AS NroVisita, p.dni AS DNI, p.nombre AS Nombre, p.apellido AS Apellido, p.telefono AS Telefono FROM visitaactividad v JOIN nosocio n ON v.nroVisita = n.nroVisita JOIN persona p ON n.persona_dni = p.dni JOIN horarioactividad h ON v.idHorario = h.idHorario WHERE h.idActividad = @id ORDER BY n.nroVisita DESC";
+
+            using (var conexion = Conexion.GetInstancia().CrearConexion())
+            using (var cmd = new MySqlCommand(sql, conexion))
+            using (var adapter = new MySqlDataAdapter(cmd))
+            {
+                cmd.Parameters.AddWithValue("@id", idActividad);
+                cmd.CommandType = CommandType.Text;
+                adapter.Fill(tabla);
+            }
+
+            return tabla;
+        }
+
+        /// <summary>
+        /// Obtiene socios que tienen cuotas sin pagar con vencimiento en la fecha indicada.
+        /// </summary>
+        public DataTable ObtenerSociosQueVencenHoy(DateTime fecha)
+        {
+            var tabla = new DataTable();
+            string sql = "SELECT DISTINCT s.idSocio AS NroSocio, p.dni AS DNI, p.nombre AS Nombre, p.apellido AS Apellido, p.telefono AS Telefono FROM cuota c JOIN socio s ON c.idSocio = s.idSocio JOIN persona p ON s.persona_dni = p.dni WHERE c.pagada = 0 AND DATE(c.fechaVencimiento) = @fecha ORDER BY s.idSocio ASC";
+
+            using (var conexion = Conexion.GetInstancia().CrearConexion())
+            using (var cmd = new MySqlCommand(sql, conexion))
+            using (var adapter = new MySqlDataAdapter(cmd))
+            {
+                cmd.Parameters.AddWithValue("@fecha", fecha.Date);
+                cmd.CommandType = CommandType.Text;
+                adapter.Fill(tabla);
+            }
+
+            return tabla;
+        }
+
+        /// <summary>
+        /// Obtiene socios que vencen hoy y además están inscriptos en una actividad específica.
+        /// </summary>
+        public DataTable ObtenerSociosQueVencenHoyPorActividad(int idActividad, DateTime fecha)
+        {
+            var tabla = new DataTable();
+            string sql = "SELECT DISTINCT s.idSocio AS NroSocio, p.dni AS DNI, p.nombre AS Nombre, p.apellido AS Apellido, p.telefono AS Telefono FROM cuota c JOIN socio s ON c.idSocio = s.idSocio JOIN persona p ON s.persona_dni = p.dni JOIN inscripcion i ON i.idSocio = s.idSocio JOIN horarioactividad h ON i.idHorario = h.idHorario WHERE c.pagada = 0 AND DATE(c.fechaVencimiento) = @fecha AND h.idActividad = @id ORDER BY s.idSocio ASC";
+
+            using (var conexion = Conexion.GetInstancia().CrearConexion())
+            using (var cmd = new MySqlCommand(sql, conexion))
+            using (var adapter = new MySqlDataAdapter(cmd))
+            {
+                cmd.Parameters.AddWithValue("@fecha", fecha.Date);
+                cmd.Parameters.AddWithValue("@id", idActividad);
+                cmd.CommandType = CommandType.Text;
+                adapter.Fill(tabla);
+            }
+
+            return tabla;
+        }
+
+        /// <summary>
+        /// Obtiene no-socios (visitas) con pago pendiente en la fecha indicada.
+        /// </summary>
+        public DataTable ObtenerNoSociosQueVencenHoy(DateTime fecha)
+        {
+            var tabla = new DataTable();
+            string sql = "SELECT DISTINCT n.nroVisita AS NroVisita, p.dni AS DNI, p.nombre AS Nombre, p.apellido AS Apellido, p.telefono AS Telefono FROM visitaactividad v JOIN nosocio n ON v.nroVisita = n.nroVisita JOIN persona p ON n.persona_dni = p.dni WHERE v.pagado = 0 AND DATE(v.fechaAsistencia) = @fecha ORDER BY n.nroVisita DESC";
+
+            using (var conexion = Conexion.GetInstancia().CrearConexion())
+            using (var cmd = new MySqlCommand(sql, conexion))
+            using (var adapter = new MySqlDataAdapter(cmd))
+            {
+                cmd.Parameters.AddWithValue("@fecha", fecha.Date);
+                cmd.CommandType = CommandType.Text;
+                adapter.Fill(tabla);
+            }
+
+            return tabla;
+        }
+
+        /// <summary>
+        /// Obtiene no-socios con pago pendiente en la fecha indicada y filtrados por actividad.
+        /// </summary>
+        public DataTable ObtenerNoSociosQueVencenHoyPorActividad(int idActividad, DateTime fecha)
+        {
+            var tabla = new DataTable();
+            string sql = "SELECT DISTINCT n.nroVisita AS NroVisita, p.dni AS DNI, p.nombre AS Nombre, p.apellido AS Apellido, p.telefono AS Telefono FROM visitaactividad v JOIN nosocio n ON v.nroVisita = n.nroVisita JOIN persona p ON n.persona_dni = p.dni JOIN horarioactividad h ON v.idHorario = h.idHorario WHERE v.pagado = 0 AND DATE(v.fechaAsistencia) = @fecha AND h.idActividad = @id ORDER BY n.nroVisita DESC";
+
+            using (var conexion = Conexion.GetInstancia().CrearConexion())
+            using (var cmd = new MySqlCommand(sql, conexion))
+            using (var adapter = new MySqlDataAdapter(cmd))
+            {
+                cmd.Parameters.AddWithValue("@fecha", fecha.Date);
+                cmd.Parameters.AddWithValue("@id", idActividad);
+                cmd.CommandType = CommandType.Text;
+                adapter.Fill(tabla);
+            }
+
+            return tabla;
+        }
+
+        /// <summary>
         /// Obtiene la última cuota asociada a un socio (monto, pagada y fechaVencimiento).
         /// </summary>
         public DataRow ObtenerUltimaCuotaPorSocio(int idSocio)

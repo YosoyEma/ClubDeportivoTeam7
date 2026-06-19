@@ -32,7 +32,7 @@
             this.lblActividad = new System.Windows.Forms.Label();
             this.cboActividad = new System.Windows.Forms.ComboBox();
             this.lblPlan = new System.Windows.Forms.Label();
-            this.cboPlan = new System.Windows.Forms.ComboBox();
+            this.cboTipo = new System.Windows.Forms.ComboBox();
             this.chkSoloVencidos = new System.Windows.Forms.CheckBox();
             this.btnAplicar = new System.Windows.Forms.Button();
             this.btnDefault = new System.Windows.Forms.Button();
@@ -51,7 +51,7 @@
             this.groupBoxFiltros.Controls.Add(this.lblActividad);
             this.groupBoxFiltros.Controls.Add(this.cboActividad);
             this.groupBoxFiltros.Controls.Add(this.lblPlan);
-            this.groupBoxFiltros.Controls.Add(this.cboPlan);
+            this.groupBoxFiltros.Controls.Add(this.cboTipo);
             this.groupBoxFiltros.Controls.Add(this.chkSoloVencidos);
             this.groupBoxFiltros.Controls.Add(this.btnAplicar);
             this.groupBoxFiltros.Controls.Add(this.btnDefault);
@@ -89,14 +89,14 @@
             this.lblPlan.TabIndex = 2;
             this.lblPlan.Text = "Plan:";
             // 
-            // cboPlan
+            // cboTipo
             // 
-            this.cboPlan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboPlan.FormattingEnabled = true;
-            this.cboPlan.Location = new System.Drawing.Point(269, 31);
-            this.cboPlan.Name = "cboPlan";
-            this.cboPlan.Size = new System.Drawing.Size(100, 21);
-            this.cboPlan.TabIndex = 3;
+            this.cboTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboTipo.FormattingEnabled = true;
+            this.cboTipo.Location = new System.Drawing.Point(269, 31);
+            this.cboTipo.Name = "cboTipo";
+            this.cboTipo.Size = new System.Drawing.Size(100, 21);
+            this.cboTipo.TabIndex = 3;
             // 
             // chkSoloVencidos
             // 
@@ -147,9 +147,9 @@
             this.lblResumen.AutoSize = true;
             this.lblResumen.Location = new System.Drawing.Point(17, 115);
             this.lblResumen.Name = "lblResumen";
-            this.lblResumen.Size = new System.Drawing.Size(258, 13);
+            this.lblResumen.Size = new System.Drawing.Size(76, 13);
             this.lblResumen.TabIndex = 2;
-            this.lblResumen.Text = "Total Vencidos: n   Total dinero: n   Seleccionados: n";
+            this.lblResumen.Text = "Total Registro:";
             // 
             // btnRecordatorio
             // 
@@ -221,7 +221,7 @@
         private System.Windows.Forms.ComboBox cboActividad;
 
         private System.Windows.Forms.Label lblPlan;
-        private System.Windows.Forms.ComboBox cboPlan;
+        private System.Windows.Forms.ComboBox cboTipo;
 
         private System.Windows.Forms.CheckBox chkSoloVencidos;
 
