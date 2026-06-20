@@ -35,18 +35,18 @@ namespace ClubDeportivo
                 return;
             }
 
-            // 2. Instanciamos la Entidad
+            // 2. Instanciamos la entidad
             Entidades.NoSocio nuevoNoSocio = new Entidades.NoSocio();
             nuevoNoSocio.Dni = txtDNI.Text;
             nuevoNoSocio.Nombre = txtNombre.Text;
             nuevoNoSocio.Apellido = txtApellido.Text;
             nuevoNoSocio.Telefono = txtTelefono.Text;
 
-            // 3. Capturamos los datos específicos de los controles nuevos
+            // 3. Capturamos los datos específicos de los controles
             int idHorario = Convert.ToInt32(cboHorarios.SelectedValue);
             DateTime fechaAsistencia = dtpFechaAsistencia.Value;
 
-            // Intentamos convertir el texto a decimal. Si falla, avisamos y cortamos la ejecución.
+            // Intentamos convertir el texto a decimal. Si falla, avisamos y detenemos la operación.
             bool esImporteValido = decimal.TryParse(txtImporte.Text, out decimal importe);
 
             if (!esImporteValido)
@@ -55,11 +55,11 @@ namespace ClubDeportivo
                 return;
             }
 
-            // 4. Instanciamos el repositorio y enviamos a la BD usando el Stored Procedure
+            // 4. Instanciamos el repositorio y enviamos a la BD usando el procedimiento almacenado
             Datos.NoSocioRepositorio repo = new Datos.NoSocioRepositorio();
             string respuesta = repo.Nuevo_NoSocio_Visita(nuevoNoSocio.Dni, nuevoNoSocio.Nombre, nuevoNoSocio.Apellido, nuevoNoSocio.Telefono, idHorario, fechaAsistencia, importe);
 
-            // 5. Evaluamos respuesta
+            // 5. Evaluamos la respuesta
             bool esNumero = int.TryParse(respuesta, out int codigo);
 
             if (esNumero)

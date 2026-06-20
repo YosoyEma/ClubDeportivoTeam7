@@ -52,11 +52,38 @@ namespace ClubDeportivo
                 var repo = new Datos.TablaRepositorio();
                 DataTable resultado = new DataTable();
 
-                // Apply filters considering activity, tipo and "solo vencidos"
-                if (chkSoloVencidos.Checked)
+                // Apply filters considering activity, tipo, deudores and "solo vencidos"
+                DateTime hoy = DateTime.Today;
+
+                // If radioDeudores is selected, show debtors (fechaVencimiento < hoy for socios, fechaAsistencia < hoy for no-socios)
+                if (radioDeudores != null && radioDeudores.Checked)
+                {
+                    if (idActividad.HasValue)
+                    {
+                        if (tipoSocio)
+                        {
+                            resultado = repo.ObtenerSociosDeudoresPorActividad(idActividad.Value, hoy);
+                        }
+                        else
+                        {
+                            resultado = repo.ObtenerNoSociosDeudoresPorActividad(idActividad.Value, hoy);
+                        }
+                    }
+                    else
+                    {
+                        if (tipoSocio)
+                        {
+                            resultado = repo.ObtenerSociosDeudores(hoy);
+                        }
+                        else
+                        {
+                            resultado = repo.ObtenerNoSociosDeudores(hoy);
+                        }
+                    }
+                }
+                else if (chkVencenHoy.Checked)
                 {
                     // Show only those who must pay today
-                    DateTime hoy = DateTime.Today;
                     if (idActividad.HasValue)
                     {
                         if (tipoSocio)
@@ -82,7 +109,7 @@ namespace ClubDeportivo
                 }
                 else
                 {
-                    // Not "solo vencidos": list all matching by activity/type
+                    // Not "solo vencidos" nor deudores: list all matching by activity/type
                     if (idActividad.HasValue)
                     {
                         if (tipoSocio)
@@ -133,7 +160,7 @@ namespace ClubDeportivo
                 {
                     // select socios and filter to vencen hoy
                     if (cboTipo.Items.Contains("Socios")) cboTipo.SelectedItem = "Socios";
-                    chkSoloVencidos.Checked = true;
+                    chkVencenHoy.Checked = true;
                     ApplyFilters();
                 }
                 catch { /* swallow any UI timing errors */ }
@@ -323,7 +350,7 @@ namespace ClubDeportivo
             if (cboTipo.Items.Count > 0) cboTipo.SelectedIndex = 0;
 
             // Desmarcar "Solo vencidos"
-            try { chkSoloVencidos.Checked = false; } catch { }
+            try { chkVencenHoy.Checked = false; } catch { }
 
             // Recargar la grilla con el conjunto por defecto (todos los socios)
             var repo = new Datos.TablaRepositorio();

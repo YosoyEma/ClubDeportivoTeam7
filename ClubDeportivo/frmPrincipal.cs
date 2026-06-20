@@ -30,14 +30,14 @@ namespace ClubDeportivo
 
         private void BtnRegistrarPago_Click(object sender, EventArgs e)
         {
-            // Abrimos el formulario de pago como ventana Modal
+            // Abrir el formulario de pago como ventana modal
             FrmCuota ventanaPago = new FrmCuota();
             ventanaPago.ShowDialog();
         }
 
         private void BtnListadoVencimientos_Click(object sender, EventArgs e)
         {
-            // Abrimos la tabla de vencimientos como ventana Modal
+            // Abrir la tabla de vencimientos como ventana modal
             FrmTabla ventanaTabla = new FrmTabla();
             ventanaTabla.ShowDialog();
         }
