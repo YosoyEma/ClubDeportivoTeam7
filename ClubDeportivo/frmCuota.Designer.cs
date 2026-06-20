@@ -7,14 +7,14 @@ namespace ClubDeportivo
     partial class FrmCuota
     {
         /// <summary>
-        /// Required designer variable.
+        /// Variable requerida por el diseñador.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Clean up any resources being used.
+        /// Limpiar recursos utilizados.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">true si se deben liberar recursos administrados; en caso contrario, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -27,7 +27,7 @@ namespace ClubDeportivo
         #region Windows Form Designer generated code
 
         /// <summary>
-        /// Required method for Designer support.
+        /// Método requerido para soporte del Diseñador.
         /// </summary>
         private void InitializeComponent()
         {

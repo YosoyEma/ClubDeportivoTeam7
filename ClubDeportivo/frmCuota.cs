@@ -32,7 +32,7 @@ namespace ClubDeportivo
             labelDetalleImporte.Text = string.Empty;
             labelCantidad.Text = "";
             labelDetalleFecha.Text = string.Empty;
-            // clear inputs
+            // limpiar entradas
             if (txtBuscar != null) txtBuscar.Text = string.Empty;
             if (dtpFecha != null) dtpFecha.Value = DateTime.Today;
         }
@@ -92,11 +92,12 @@ namespace ClubDeportivo
                     var actividad = repo.ObtenerActividadPorInscripcionSocio(nro);
                     labelDetalleActividad.Text = string.IsNullOrEmpty(actividad) ? string.Empty : actividad;
 
-                    // show latest cuota monto and pagada status
+                    // mostrar monto de la última cuota y estado de pago
                     var cuotaRow = repo.ObtenerUltimaCuotaPorSocio(nro);
                     if (cuotaRow != null)
                     {
                         // monto may be null
+                        // el monto puede ser nulo
                         if (!cuotaRow.IsNull("monto"))
                         {
                             double monto = Convert.ToDouble(cuotaRow["monto"]);
@@ -149,7 +150,7 @@ namespace ClubDeportivo
             }
             else if (radioBuscarNoSocio.Checked)
             {
-                // search by nroVisita for no socio
+                // buscar por nroVisita para no socio
                 int nroVisita;
                 if (!int.TryParse(input, out nroVisita))
                 {
@@ -169,7 +170,7 @@ namespace ClubDeportivo
                     labelDetalleEstado.Text = "-";
                     labelDetalleActividad.Text = row.IsNull("actividad") ? string.Empty : row["actividad"].ToString();
 
-                    // show importe and pagado for visita
+                    // mostrar importe y estado de pago para la visita
                     if (!row.IsNull("importe"))
                     {
                         decimal importe = Convert.ToDecimal(row["importe"]);
@@ -232,10 +233,10 @@ namespace ClubDeportivo
 
         private void BtnGuardar_Click(object sender, EventArgs e)
         {
-            // Handle socio payment
+            // Manejar pago de socio
             if (radioBuscarSocio.Checked)
             {
-                // parse nro socio from txtBuscar
+                // parsear nro de socio desde txtBuscar
                 int nro;
                 if (!int.TryParse(txtBuscar.Text.Trim(), out nro))
                 {
@@ -250,10 +251,10 @@ namespace ClubDeportivo
                 if (resp == "1")
                 {
                     MessageBox.Show("Pago registrado correctamente.", "Pago OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    // refresh displayed data by re-running search
+                    // Volver a ejecutar la búsqueda para refrescar los datos del socio y mostrar el estado actualizado
                     BtnBuscar_Click(this, EventArgs.Empty);
-                    // then clear fields so user can start new search
-                    ClearSearchResults();
+                    // No limpiar los resultados inmediatamente: mantener los datos visibles
+                    // para que el usuario pueda ver la re-activación (estadoActivo) realizada por el procedimiento.
                 }
                 else if (resp == "0")
                 {
@@ -267,7 +268,7 @@ namespace ClubDeportivo
                 return;
             }
 
-            // Handle no-socio payment
+            // Manejar pago de no socio
             if (radioBuscarNoSocio.Checked)
             {
                 int nroVisita;

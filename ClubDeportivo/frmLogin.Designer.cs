@@ -3,14 +3,14 @@
     partial class frmLogin
     {
         /// <summary>
-        /// Required designer variable.
+        /// Variable requerida por el diseñador.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Clean up any resources being used.
+        /// Limpiar recursos utilizados.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">true si se deben liberar recursos administrados; en caso contrario, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -23,8 +23,8 @@
         #region Windows Form Designer generated code
 
         /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        /// Método requerido para soporte del Diseñador - no modifique
+        /// el contenido de este método con el editor de código.
         /// </summary>
         private void InitializeComponent()
         {

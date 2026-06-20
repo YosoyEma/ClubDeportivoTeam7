@@ -31,7 +31,7 @@ namespace ClubDeportivo
             if (respuesta == "1")
             {
                 MessageBox.Show("Certificado de Apto Físico registrado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtDNI.Text = ""; // Limpiamos la caja
+                txtDNI.Text = ""; // Limpiamos la caja de texto
             }
             else
             {
